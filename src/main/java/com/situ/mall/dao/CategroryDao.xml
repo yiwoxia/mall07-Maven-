@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  <mapper namespace="com.situ.mall.dao.CategroryDao">
+  <sql id="categoryColums">
+		id,parent_id,name,status,sort_order,create_time,update_time
+	</sql>
+	<resultMap type="Categrory" id="categoryMap">
+		 <id  property="id" column="id"/>
+		 <result property="parentId" column="parent_id"/>
+		 <result property="name" column="name"/>
+		 <result property="status" column="status"/>
+		 <result property="createTime" column="create_time" javaType="java.sql.Date" jdbcType="DATE" />
+		 <result property="updateTime" column="update_time" javaType="java.sql.Date" jdbcType="DATE" />
+	</resultMap>
+	<!-- 查询整个表  -->
+    <select id="finAll" resultType="Categrory">
+    	SELECT * FROM category
+    </select>
+    <!-- 查询全部父类  -->
+    <select id="findAllCategoryParent" resultMap="categoryMap">
+    	select <include refid="categoryColums"/> from category where parent_id=0;
+    </select>
+    <!-- 根据父类查询全部子类 -->
+    <select id="findAllCategory" parameterType="int" resultMap="categoryMap">
+    	select <include refid="categoryColums"/> from category where parent_id=#{parentId}
+    </select>
+   	
+	<!-- 查询分类的数量 -->
+	<select id="totalSize" resultType="int">
+		select count(*) from category;
+	</select>
+	
+	<!-- 无条件的分页 -->
+	<select id="pageList" parameterType="int" resultMap="categoryMap">
+		select <include refid="categoryColums"/> 
+		from category order by parent_id,id limit #{pageIndex},#{pageSize} ;
+	</select>
+	<!-- 添加分类  -->
+	<insert id="addCategory" parameterType="Categrory">
+		INSERT INTO category (parent_id,NAME,STATUS,create_time,update_time) 
+		VALUES (#{parentId},#{name},#{status},now(),now());
+	</insert>
+	<!-- 根据条件查询分类的数量 -->
+	<select id="totalSizeByCondition" parameterType="SearchCondition" resultType="int">
+		select count(*) from category 
+		<where>
+			<if test="category.parentId!=null">
+				and parent_id=#{category.parentId}
+			</if>
+		</where>
+	</select>
+	
+	<!-- 根据条件的分页 -->
+	<select id="pageListByCondition" parameterType="SearchCondition" resultMap="categoryMap">
+		select <include refid="categoryColums"/> from category 
+		<where>
+			<if test="category.parentId!=null">
+				and parent_id=#{category.parentId}
+			</if>
+		</where> 
+		order by parent_id,id limit #{pageIndex},#{pageSzie} ;
+	</select>
+	<!-- 更新状态  -->
+	<update id="updateStatus" parameterType="int">
+		update category set status=#{status},update_time=now() where id=#{id};
+	</update>
+	<!-- 删除状态 -->
+	<delete id="delCategory" parameterType="int">
+	delete from category where id=#{id};
+	</delete>
+	<!-- 查找所有分类 -->
+	<select id="findAllChildCategory" resultMap="categoryMap">
+		select <include refid="categoryColums"/> from category;
+	</select>
+	<!-- 更新状态 -->
+	<!-- <update id="updateStatus" parameterType="Categrory">
+		update category set status=#{status},update_time=now() where id=#{id};
+	</update> -->
+  </mapper>

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  <mapper namespace="com.situ.mall.dao.ShappingDao">
+
+	<sql id="ShappingColums">
+		id,user_id,receiver_name,receiver_phone,receiver_mobile,receiver_province,receiver_city,receiver_district,receiver_address,receiver_zip,create_time,update_time
+	</sql>
+	
+	<resultMap type="Shipping" id="ShappingMap">
+		<id  property="id" column="id"/>
+		 <result property="userId" column="user_id"/>
+		 <result property="receiverName" column="receiver_name"/>
+		 <result property="receiverPhone" column="receiver_phone"/>
+		 <result property="receiverMobile" column="receiver_mobile"/>
+		 <result property="receiverProvince" column="receiver_province"/>
+		 <result property="receiverCity" column="receiver_city"/>
+		 <result property="receiverDistrict" column="receiver_district"/>
+		 <result property="receiverAddress" column="receiver_address"/>
+		 <result property="receiverZip" column="receiver_zip"/>
+		 <result property="createTime" column="create_time" javaType="java.sql.Date" jdbcType="DATE" />
+		 <result property="updateTime" column="update_time" javaType="java.sql.Date" jdbcType="DATE" />
+	</resultMap>
+	
+	<!-- 查询分类的数量 -->
+	<select id="totalSize" resultType="int">
+		select count(*) from shipping;
+	</select>
+	<!-- 无条件的分页 -->
+	<select id="pageList" parameterType="int" resultMap="ShappingMap">
+		select <include refid="ShappingColums"/> 
+		from shipping limit #{pageIndex1},#{pageSize1} ;
+	</select>
+	<!-- 添加 -->
+	<insert id="addShipping" parameterType="Shipping" >
+	 insert into shipping(user_id,receiver_name,receiver_phone,receiver_mobile,receiver_province,receiver_city,receiver_district,receiver_address,receiver_zip,create_time,update_time)
+	 values(#{userId},#{receiverName},#{receiverPhone},#{receiverMobile},#{receiverProvince},#{receiverCity},#{receiverDistrict},#{receiverAddress},#{receiverZip},now(),now())
+	</insert>
+	<!-- 修改 -->
+	<update id="update" parameterType="Shipping">
+		update shipping set user_id=#{userId},receiver_name=#{receiverName},receiver_phone=#{receiverPhone},receiver_mobile=#{receiverMobile},receiver_province=#{receiverProvince},receiver_city=#{receiverCity},receiver_district=#{receiverDistrict},receiver_address=#{receiverAddress},receiver_zip=#{receiverZip},update_time=now() where id=#{id}
+	</update>
+	<!-- 根据ID查找 -->
+	<select id="findById" parameterType="int" resultType="Shipping" resultMap="ShappingMap">
+		select <include refid="ShappingColums"/> from shipping where user_id=#{id}
+	</select>
+	<!-- 删除 -->
+	<delete id="delShippingById" parameterType="int" >
+		delete from shipping where id=#{id}
+	</delete>
+</mapper>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.situ.mall.dao.OrderItemDao">
+
+	<resultMap type="OrderItem" id="OrderItemMap">
+		<id  property="id" column="id"/>
+		 <result property="orderNo" column="order_no"/>
+		 <result property="productId" column="user_id"/>
+		 <result property="productName" column="product_name"/>
+		 <result property="productImage" column="product_image"/>
+		 <result property="currentUnitPrice" column="current_unit_price"/>
+		 <result property="quantity" column="quantity"/>
+		 <result property="totalPrice" column="total_pric"/>
+		 <result property="createTime" column="payment_time" javaType="java.sql.Date" jdbcType="DATE" />
+		 <result property="updateTime" column="send_time" javaType="java.sql.Date" jdbcType="DATE" />
+	</resultMap>
+
+	<select id="findOrderItemByorder_no" parameterType="Long" resultMap="OrderItemMap">
+		select * from order_item where order_no=#{orderNo}
+	</select>
+
+</mapper>

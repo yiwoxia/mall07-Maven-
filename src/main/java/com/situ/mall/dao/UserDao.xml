@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.situ.mall.dao.UserDao">
+	
+		
+	<resultMap type="User" id="UserMap">
+		<id  property="id" column="id"/>
+		 <result property="username" column="username"/>
+		 <result property="password" column="password"/>
+		 <result property="email" column="email"/>
+		 <result property="phone" column="phone"/>
+		 <result property="question" column="question"/>
+		 <result property="answer" column="answer"/>
+		 <result property="role" column="role"/>
+		 <result property="createTime" column="create_time" javaType="java.sql.Date" jdbcType="DATE" />
+		 <result property="updateTime" column="update_time" javaType="java.sql.Date" jdbcType="DATE" />
+	</resultMap>
+	
+	<!-- 检测用户名 -->
+	<select id="checkUsername" parameterType="String" resultType="Integer" resultMap="UserMap">
+		select count(*) from user where usernNme=#{username}
+	</select>
+	<!-- 根据条件查询数据的个数-->
+	<select id="pageList"  parameterType="int" resultMap="UserMap">
+		select * from user limit #{pageIndex},#{pageSize}
+	</select>
+	<!-- 查询一共有多少条数据  -->
+	<select id="totalSize" resultType="int" >
+		select count(*) from user
+	</select>
+	<!-- 修改 -->
+	<update id="update" parameterType="User">
+		update user set
+		username=#{username},password=#{password},email=#{email},phone=#{phone},question=#{question},answer=#{answer},role=#{role},update_time=now()
+		where id=#{id}
+	</update>
+	<!-- 根据Id查询 -->
+	<select id="findUserById" parameterType="int" resultType="User">
+		select * from user where id=#{id}
+	</select>
+	<!-- 删除 -->
+	<delete id="deleteUser" parameterType="int">
+		delete from user where id=#{id}
+	</delete>
+	<!-- 添加 -->
+	<insert id="addUser" parameterType="User">
+		insert into user values(#{id},#{username},#{password},#{email},#{phone},#{question},#{answer},#{role},now(),now())
+	</insert>
+	
+</mapper>

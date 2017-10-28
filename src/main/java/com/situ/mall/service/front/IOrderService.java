@@ -1,0 +1,37 @@
+package com.situ.mall.service.front;
+
+import java.util.List;
+
+import com.situ.mall.pojo.Order;
+import com.situ.mall.pojo.OrderItem;
+
+public interface IOrderService {
+	
+	
+	/**
+	 * 添加订单项
+	 * @param order
+	 * @return int
+	 */
+	int addOrderItem(OrderItem orderItem);
+	/**
+	 * 根据订单号查询订单项
+	 * @param orderNo
+	 * @return List<OrderItem>
+	 */
+	List<OrderItem> findByOrder(Long orderNo);
+
+	/**
+	 * 添加订单
+	 * @param order
+	 * @return boolean
+	 */
+	boolean add(Order order);
+	/**
+	 * 查看订单页面展示订单页面
+	 * @param id
+	 * @return
+	 */
+	List<Object> findorderByUser(Integer id);
+
+}

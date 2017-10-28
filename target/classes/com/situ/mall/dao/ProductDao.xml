@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  <mapper namespace="com.situ.mall.dao.ProductDao">
+  
+  
+  	
+  	
+	<sql id="productColums">
+		p.id AS 'pid',category_id,p.name AS 'pname',subtitle,main_image,sub_images,detail,price, 
+		stock,p.status,p.create_time AS 'pcreate_time',p.update_time AS 'pupdate_time', 
+		c.id AS 'cid',parent_id,c.name AS 'cname' 
+	</sql>
+  	 <!-- 商品表的Map -->
+    <resultMap type="Product" id="ProductMap">
+    	<id column="pid" property="id" />
+    	<result column="category_id" property="categoryId" />
+    	<result column="pname" property="name" />
+    	<result column="subtitle" property="subtitle" />
+    	<result column="main_image" property="mainImage"  />
+    	<result column="sub_images" property="subImages" />
+    	<result column="price" property="price" />
+    	<result column="stock" property="stock"  />
+    	<result column="subtitle" property="subtitle"  />
+    	<result column="detail" property="detail"  />
+    	<result column="status" property="status"/>
+    	<result column="pcreate_time" property="createTime"  javaType="java.sql.Date" jdbcType="DATE" />
+    	<result column="pupdate_time" property="updateTime"  javaType="java.sql.Date" jdbcType="DATE"  />
+    	<association property="category" javaType="Categrory">
+    		<id column="cid" property="id"/>
+    		<result column="parent_id" property="parentId" />
+    		<result column="cname" property="name" />
+    	</association>
+    </resultMap>
+  	 <!-- 查找所有的信息 -->
+  	<select id="finAll" resultType="Product">
+  		select * from product;
+  	</select>
+  	<!-- 根据分页查询信息 -->
+  	<select id="pageList" parameterType="PageBean" resultMap="ProductMap">
+  		SELECT <include refid="productColums"/> FROM product AS p LEFT JOIN category AS c ON p.category_id=c.id 
+  		LIMIT #{pageIndex},#{pageSize};
+  	</select>
+  	<!-- 查询一共有多少商品 -->
+  	<select id="totalSize" resultType="int">
+  		SELECT COUNT(*) FROM product;
+  	</select>
+  	<!-- 添加  -->
+  	<insert id="addProduct" parameterType="Product">
+  		INSERT INTO product (category_id,name,subtitle,main_image,sub_images,detail,price,stock,status,create_time,update_time) 
+  		VALUES(#{categoryId},#{name},#{subtitle},#{mainImage},#{subImages},#{detail},#{price},#{stock},#{status},now(),now());
+  	</insert>
+  	<!-- 分页有条件 -->
+  	<select id="pageListByCondition" parameterType="SearchCondition" resultMap="ProductMap">
+  		SELECT <include refid="productColums"/> FROM product AS p LEFT JOIN category AS c ON p.category_id=c.id  
+  		<where>
+			<if test="product!=null and product.name!=''">
+				and p.name like '%${product.name}%'
+			</if>
+		</where>
+  		order by p.id  LIMIT #{pageIndex},#{pageSzie};
+  	</select>
+  	<!-- 根据条件查询有多少数据 -->
+  	<select id="totalSizeByCondition" parameterType="SearchCondition" resultType="int">
+  		SELECT COUNT(*) FROM product 
+  		<where>
+	  			<if test="product!=null and product.name!=null  and !&quot;&quot;.equals(product.name.trim())">
+	  				and name like '%${product.name}%'
+	  			</if>
+  		</where>
+  	</select>
+  	<!-- 更改商品的状态 -->
+	<update id="updateStatus" parameterType="Product">
+		UPDATE product SET status=#{status},update_time=#{updateTime} WHERE id=#{id}
+	</update>
+	<!-- 更改商品的状态 -->
+	<update id="updateAll" parameterType="int">
+		UPDATE product SET status=#{status},update_time=now() WHERE id=#{id}
+	</update>
+  	<!-- 更改商品 -->
+  	<update id="updateProduct" parameterType="Product">
+	  	update product 
+			<set>
+				<if test="categoryId!=null">
+					category_id=#{categoryId},
+				</if>
+				<if test="name!=null  and !&quot;&quot;.equals(name.trim())">
+					name=#{name},
+				</if>
+				<if test="subtitle!=null  and !&quot;&quot;.equals(subtitle.trim())">
+					subtitle=#{subtitle},
+				</if>
+				<if test="mainImage!=null  and !&quot;&quot;.equals(mainImage.trim())">
+					main_image=#{mainImage},
+				</if>
+				<if test="price!=null">
+					price=#{price},
+				</if>
+				<if test="stock!=null">
+					stock=#{stock},
+				</if>
+				<if test="status!=null">
+					status=#{status},
+				</if>
+				<if test="true">
+					update_time=now(),
+				</if>
+			</set> 
+			 where id=#{id}
+  	</update>
+  	<!-- 删除全部 -->
+<!--  	<delete id="delAll" parameterType="array">
+  		DELETE FROM product WHERE id in(
+  			<foreach collection="selectIds" item="id"  separator=",">
+  				#{id}
+  			</foreach>
+  		)
+  	</delete>  -->
+  	<!-- 根据Id查询 -->
+   <select id="findById" parameterType="int" resultMap="ProductMap">
+   		select <include refid="productColums"/> 
+		FROM product AS p LEFT JOIN category AS c ON p.category_id=c.id where p.id=#{id}
+   		
+   </select>
+   <!-- 根据ID删除  -->
+   <delete id="deleteById" parameterType="int">
+   		DELETE FROM product WHERE id =#{id};
+   </delete>
+ </mapper>
