@@ -62,12 +62,12 @@
 			<ul  >
 			<c:forEach items="${pageBean.list }" var="product">
 				<li style="width: 180px;height: 180px; margin: 10px;  float: left; ">
-				<a  href="${ctx  }/product/detail.shtml?id=${product.id}">
+				<%-- <a  href="${ctx  }/product/detail.shtml?id=${product.id}"> --%>
 					<!-- 跳静态化界面的路径 -->
-					<%-- <a  href="${ctx  }/resources/html/${product.id}.html"> --%>
+					<a  href="${ctx  }/resources/html/${product.id}.html">
 						<img class="proLi"  width="150px" height="150px" src="${product.fullUrl }">
-						<p style="color: black; width:150px; text-overflow:ellipsis; white-space:nowrap; overflow:hidden;" >${product.name }</p>
-						<p style="color: red;" >¥&nbsp;&nbsp;${product.price }</p>
+						<p style="color: black; width:150px; text-overflow:ellipsis; white-space:nowrap; overflow:hidden;" ><a  href="${ctx  }/product/detail.shtml?id=${product.id}">${product.name }</p>
+						<p style="color: red;" ><a  href="${ctx  }/product/detail.shtml?id=${product.id}">¥&nbsp;&nbsp;${product.price }</p>
 					</a>
 				</li>
 			</c:forEach>
