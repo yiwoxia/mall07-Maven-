@@ -68,7 +68,7 @@
 	$(function() {
 
 		$.ajax({
-			url : "/Java1707Mall/category/categoryParent.action",
+			url : "/mall07/category/categoryParent.action",
 			dateType : "json",
 			success : function(data, textStatus, ajax) {
 				//append_template(data, "province");
@@ -86,7 +86,7 @@
 		//清空子类下拉框中的内容，出第一项外
 		$("#categoryChildId option:gt(0)").remove();
 		$.ajax({
-			url : "/Java1707Mall/category/category.action",
+			url : "/mall07/category/category.action",
 			//内容
 			data : "parentId=" + parentId,
 			//类型

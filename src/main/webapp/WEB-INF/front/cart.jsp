@@ -39,7 +39,24 @@
 				window.location.href="${ctx}/cart/delCart.shtml?productId="+productId;
 			}
 		}
-
+		/*计算 选中的商品的总价*/
+		function selectAll(){
+			$("input[name=selectIds]").prop("checked",$("#selectIds").is(":checked"));
+			var price=$("input[name=selectIds]:checked");
+			var totalPrice = 0.00;
+			for (var int = 0; int < price.length;int++){
+				totalPrice += parseFloat($("#priceId"+price[int].getAttribute("price")).html()) ;
+			}
+			$("#total").html(totalPrice);
+		}
+		function selectPro(obj){
+			var price=$("input[name=selectIds]:checked");
+			var totalPrice = 0.00;
+			for (var int = 0; int < price.length; int++) {
+				totalPrice += parseFloat($("#priceId"+price[int].getAttribute("price")).html()) ;
+			}
+			$("#total").html(totalPrice)
+		}
 		</script>
 		
 <style type="text/css">
@@ -86,7 +103,8 @@
 			<div class="title_center">
 				<ul style="color: #666666;margin-top: 10px;margin-bottom: 10px;">
 					<li style="margin-left: 16px;margin-right: 8px;">
-						<input type="checkbox" />
+						<!-- <input type="checkbox" /> -->
+							<input type="checkbox" id="selectIds" onclick="selectAll()" />
 					</li>
 					<li style="margin-left: 8px;margin-right: 38px;">全选</li>
 					<li style="margin-left: 38px;margin-right: 168px;">商品</li>
@@ -121,7 +139,7 @@
 				</div>
 				<div class="car_2_bottom">
 					<div class="car_con_1">
-						<input type="checkbox" />
+						<input type="checkbox" onclick="selectPro(this)" id="${cartItemVO.product.id}" price="${cartItemVO.product.id}" name="selectIds" value="${cartItemVO.product.id}" />
 					</div>
 					<div class="car_con_2" >
 						<img src="${cartItemVO.product.fullUrl}" style="width:95px; height: 85px; "/>
@@ -149,9 +167,10 @@
 							<input class="car_ul_text" type="text" placeholder="1" id="num" value="${cartItemVO.amount}" />
 							<input class="car_ul_btn2" type="button" onclick="add(${cartItemVO.product.id})" value="+" />
 						</li>
+						<%-- ${cartItemVO.product.price*cartItemVO.amount} --%>
 						<li class="money">
 							<span style="color: #F41443;">
-								¥ ${cartItemVO.product.price*cartItemVO.amount}
+								¥ <span id="priceId${cartItemVO.product.id }" style="color: #F41443;">${cartItemVO.product.price*cartItemVO.amount}</span>
 							</span>
 						</li>
 						<li class="delete">
@@ -169,10 +188,11 @@
 		<div class="total">
 				<ul style="color: #666666;margin-top: 10px;margin-bottom: 10px;">
 					<li style="margin-left: 16px;margin-right: 8px;">
-						<input type="checkbox" />
+						<input type="checkbox" id="selectIds" onclick="selectAll()" />
 					</li>
 					<li style="margin-left: 8px;margin-right: 265px;">全选</li>
-					<li style="margin-left: 265px;margin-right: 18px;">总金额（已免运费）：<span style="color: #F41443;">¥${buyCartVO.totalPrice}</span></li>
+					<%-- <span style="color: #F41443;">¥${buyCartVO.totalPrice}</span> --%>
+					<li style="margin-left: 265px;margin-right: 18px;">总金额（已免运费）：<span style="color: #F41443;">¥ <span id="total" style="color: #F41443;" >0.00</span></span></li>
 					 <li class="total_right"><a  href="javascript:login1()"   target="_blank">立即结算</a></li> 
 					<%-- <li class="total_right"><a href="${ctx}/order/preparedorede.shtml">立即结算</a></li> --%>
 				</ul>

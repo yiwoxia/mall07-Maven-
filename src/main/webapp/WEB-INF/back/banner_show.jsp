@@ -35,7 +35,7 @@
        function updateStatus(id,status) {
 			var isUpdate = confirm("确定修改？");
 			if (isUpdate) {
-				location.href="${prc}/banner/updateStatus.action?id=" + id + "&status=" + status;
+				location.href="${ctx}/banner/updateStatus.action?id=" + id + "&status=" + status;
 			}
 		}
        
@@ -60,12 +60,8 @@
 			<!-- 左边导航栏结束  -->
 			<!-- 右边栏开始  -->
 			<div class="col-md-10">
-				<ul class="nav nav-tabs">
-					<li role="presentation" class="active"><a href="javascript:void(0)">广告图管理</a></li>
-				    <li role="presentation"><a href="${ctx }/banner/toAddBanner.action">添加广告图</a></li>
-				</ul>
 				<!-- 查询条件 开始 -->
-				<form id="searchForm" action="${prc }/product/pageListByContidition.action" method="post" class="form-inline" style="float: left; margin-top: 10px;margin-bottom: 10px;" >
+				<%-- <form id="searchForm" action="${ctx }/product/pageListByContidition.action" method="post" class="form-inline" style="float: left; margin-top: 10px;margin-bottom: 10px;" >
 					<!-- 用于查找+分页 记录反的页数 -->
 					<input type="hidden" name="pageIndex" id="pageIndex" />
 					<div class="form-group"  >
@@ -74,10 +70,10 @@
 				 	</div>
 					<button type="submit" class="btn btn-default">查询</button>
 					<button type="reset" class="btn btn-default">重置</button>
-				</form>
+				</form> --%>
 				<!-- 查询条件 结束 -->
-					<button onclick="javascript:deleteAll()"  class="btn btn-default">批量删除</button>
-					<button onclick="javascript:updateAllStatus()"  class="btn btn-default">批量修改</button>
+				<!-- 	<button onclick="javascript:deleteAll()"  class="btn btn-default">批量删除</button>
+					<button onclick="javascript:updateAllStatus()"  class="btn btn-default">批量修改</button> -->
 				<!-- 学生列表开始 -->
 				<form id="delForm"  method="post">
 					<table class="table table-striped table-bordered table-hover" style="margin-top: 10px;" >

@@ -42,6 +42,10 @@ public class Product implements Serializable{
     public String getFullUrl() {
 		return MallConstant.SERVER_ADDRES + mainImage;
 	}
+	@JsonIgnore
+	public String getInitUrl() {
+		return MallConstant.SERVER_ADDRES + mainImage;
+	}
 
 	public Product() {
 		super();

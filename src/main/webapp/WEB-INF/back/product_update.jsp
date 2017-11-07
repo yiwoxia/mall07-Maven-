@@ -19,13 +19,14 @@
 </style>
 <script type="text/javascript">
 	
-	var urlPRC = "${pageContext.request.contextPath}";
+	var urlCTX = "${pageContext.request.contextPath}";
 	
-	var status = ${prduct.status};
+	var status = ${product.status};
 	
-	var paarenId = ${product.category.parentId};
+	var parenId = ${product.category.parentId};
 	
 	var childId = ${product.categoryId};
+	var initUrl = ${product.initUrl};
 	
 	var str = "${product.subImages}";
 	
@@ -52,27 +53,23 @@
 			<!-- 左边导航栏结束  -->
 			<!-- 右边栏开始  -->
 			<div class="col-md-10">
-				<ul class="nav nav-tabs">
-					<li role="presentation" ><a href="${ctx}/mall/pageList.action">商品管理</a></li>
-					<li role="presentation"><a href="${ctx}/mall/toAddProduct.action">添加商品</a></li>
-					<li role="presentation" class="active"><a href="javascript:void(0)">添加商品</a></li>
-				</ul>
-				<!-- 添加商品 开始 -->
-				<form style="margin-top: 10px;" id="form-add" action="${ctx}/mall/updateProduct.action" method="post" enctype="multipart/form-data" >
+				
+			<!-- 添加商品 开始 -->
+				<form style="margin-top: 10px;" id="form-add" action="${ctx }/mall/updateProduct.action" method="post"  >
 				<input type="hidden" name="id" value="${product.id }" />
-				<!-- 商品分类开始  -->
-				  <div class="form-group" onmouseout="selectId()" >
+				<!-- 商品分类开始 -->
+				  <div class="form-group"  >
 						<label for="exampleInputEmail1" id="text">产品分类：&nbsp;&nbsp;&nbsp;</label>
-					    <select id="categoryParentId" onchange="selectCategories(this)" class="form-control select">
-					       <option value="">-请选择-</option>
+					    <select id="categoryParentId" onchange="selectCategories(this)"   class="form-control select">
+					       <option id="op" value="">-请选择-</option>
 					    </select>
 						<label for="exampleInputEmail1" id="text" >&nbsp;&nbsp;&nbsp;产品类型：&nbsp;&nbsp;&nbsp;</label>
-					    <select id="categoryChildId" class="form-control select" >
-					       <option value="">-请选择-</option>
+					    <select id="categoryChildId" onchange="selectId()" class="form-control select" >
+					       <option id="op" value="">-请选择-</option>
 					    </select>
 				  </div>
 				  <input type="hidden" id="categoryId" name="categoryId" >
-				<!--   商品分类结束 -->
+				  <!-- 商品分类结束 -->
 				  
 				  <div class="form-group">
 					   <label for="exampleInputEmail1">商品名称</label>
