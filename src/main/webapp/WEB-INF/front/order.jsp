@@ -68,7 +68,7 @@
 						<input type="hidden" name="Checkout[addressState]" id="addrState"   value="0">
 						<!-- 收货地址 -->
 						
-						<div class="xm-box">
+						<div class="xm-box" >
 							<div class="box-hd ">
 								<h2 class="title">收货地址</h2>
 								<!---->
@@ -553,7 +553,7 @@
 		
 		
 		
-	<div id="addAddress" >
+	<div id="addAddress" style="display: none;" >          
 	<form id="subAddrForm" >
 	<div class="xm-edit-addr-box" id="J_editAddrBox">
 				<div class="bd">

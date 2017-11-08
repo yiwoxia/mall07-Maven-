@@ -16,7 +16,7 @@
 			strs = imageUrlStr.split(",");
 			/* 拼接路径赋banner_box*/
 			for (var int = 0; int < strs.length; int++) {
-				$('#banner_box').append("<img class='banner' src='/pic/" + strs[int] + "'>");
+				$('#banner_box').append("<img class='banner' src='http://ox1pbc20y.bkt.clouddn.com/" + strs[int] + "'>");
 				
 			}
 			for (var intLi = 1; intLi < strs.length; intLi++) {

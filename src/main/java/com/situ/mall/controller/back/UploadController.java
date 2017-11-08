@@ -75,13 +75,13 @@ public class UploadController {
 	@ResponseBody
 	public String uploadFile(MultipartFile pictureFile) {
 		try {
-			/*为了防止重名生成一个随机的名字:aa4fb86a7896458a8c5b34c634011ae3*/
+			/*为了防止重名生成一个随机的名字:aa4fb86a7896458a8c5b34c634011ae3
 			String name = UUID.randomUUID().toString().replace("-", "");
-			/*jpg,png*/
+			jpg,png
 			String ext = FilenameUtils.getExtension(pictureFile.getOriginalFilename());
-			/*将图片名字和图片格式进行拼接起来*/
+			将图片名字和图片格式进行拼接起来
 			String fileName = name + "." + ext;
-			/*获取MallConstant方法里面的路径将静态路径改为动态路径，为了方便网上七牛上面进行传输图片*/
+			获取MallConstant方法里面的路径将静态路径改为动态路径，为了方便网上七牛上面进行传输图片
 			String filePath1 = "D:\\pic\\" + fileName;
 			String filePath = "/pic/" + fileName;
 			try {
@@ -90,12 +90,18 @@ public class UploadController {
 				e.printStackTrace();
 			} catch (IOException e) {
 				e.printStackTrace();
+			}*/
+			String fileName = "";
+			try {
+				fileName = QiniuUploadUtil.upload(pictureFile.getBytes());
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
-			
 			//封装到map中返回
 			Map result = new HashMap<>();
 			result.put("error", 0);
-			result.put("url", filePath);
+			result.put("url", MallConstant.SERVER_ADDRES + fileName);
 			//将object转换成json
 			return JsonUtils.objectToJson(result);
 		} catch (Exception e) {
